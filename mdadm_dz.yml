@@ -24,18 +24,7 @@
   roles:
     - role: ansible-mdadm
   tasks:
-    - name: Read device information (always use unit when probing)
-      community.general.parted: device=/dev/md0 unit=GiB
-      register: md0_info
-
-    - name: Remove all partitions from disk
-      community.general.parted:
-        device: /dev/md0
-        number: '{{ item.num }}'
-        state: absent
-      loop: '{{ md0_info.partitions }}'
-
-    - name: Create a 5 new partitions
+    - name: Create a 5 new partitions 100%/5 = 20
       community.general.parted:
         device: /dev/md0
         label: gpt
