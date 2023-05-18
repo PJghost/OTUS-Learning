@@ -39,10 +39,10 @@
       community.general.parted:
         device: /dev/md0
         label: gpt
-        number: "{{ item }}"
+        number: "{{ (item | int | abs) +1 }}"
         state: present
-        part_start: 20%
-        part_end: 20%
-        part_type: extended
-        name: "{{ item }}"
-      loop: "{{ [1,2,3,4,5] }}"
+        part_start: "{{ (item | int | abs) * 20 }}%"
+        part_end: "{{ (item | int | abs) * 20 + 20 }}%" 
+        unit: "%"
+        name: "disk{{ (item | int | abs) +1 }}"
+      with_sequence: start=0 count=5
